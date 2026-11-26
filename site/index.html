@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f8fc">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://accounts.google.com/gsi/client; style-src 'self' https://accounts.google.com/gsi/style; frame-src https://accounts.google.com/gsi/; connect-src 'self' https: http://127.0.0.1:* http://localhost:*; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="description" content="Калькулятор ERIV для сравнения мер удержания и оценки экономики добровольного ухода.">
+  <title>ERIV · Решения по удержанию</title>
+  <link rel="icon" href="./assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <script src="./config.js" defer></script>
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <a class="skip" href="#main">К содержанию</a>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="#method" aria-label="ERIV, методика">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="brand-title">ERIV</span>
+        <span class="brand-divider"></span>
+        <span class="brand-caption">Аналитика<br>удержания</span>
+      </a>
+      <nav class="top-nav" aria-label="Разделы">
+        <a href="#method" data-route="method" aria-current="page">Методика</a>
+        <a href="#calculate" data-route="calculate">Расчёт</a>
+        <a href="#registry" data-route="registry" id="registry-tab" hidden>База</a>
+      </nav>
+      <button type="button" class="btn outline admin-toggle" data-action="admin" aria-label="Доступ к базе сотрудников">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></svg>
+        <span>Доступ к базе</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div id="method" class="shell method-page">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="hero-label"><span></span> Модель удержания персонала</div>
+          <h1 id="hero-title">Как выбрать меру<br class="desktop-break"> удержания</h1>
+          <p>Сравните меры по риску добровольного ухода и ожидаемой экономической ценности для компании.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#calculate">Перейти к расчёту
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>
+            </a>
+            <a class="btn text-btn" href="./assets/ERIV.xlsx" download="ERIV.xlsx">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4"/></svg>
+              Шаблон Excel
+            </a>
+          </div>
+        </div>
+
+        <figure class="model-figure" aria-labelledby="flow-caption">
+          <figcaption id="flow-caption"><span>Модель расчёта</span><span>BAU — точка отсчёта</span></figcaption>
+          <div class="flow-layout">
+            <div class="flow-inputs">
+              <div class="flow-node">
+                <span class="flow-icon green" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM5 9h14m-14 5h14M10 9v11"/></svg>
+                </span>
+                <div><small>EXCEL</small><strong>Экономика случая</strong></div>
+              </div>
+              <div class="flow-node">
+                <span class="flow-icon violet" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M4 18V6m0 12h16M7 14l4-4 3 3 5-6"/></svg>
+                </span>
+                <div><small>PYTHON</small><strong>Риск и эффект меры</strong></div>
+              </div>
+            </div>
+            <div class="flow-connector" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="flow-output"><strong>ERIV<span>₽</span></strong><small>Ценность меры</small></div>
+          </div>
+          <div class="flow-legend" aria-label="Цвета модели">
+            <span><i class="legend-input"></i> Вводимые данные</span>
+            <span><i class="legend-result"></i> Расчётные значения</span>
+          </div>
+        </figure>
+      </section>
+
+      <section class="work-order" aria-labelledby="order-title">
+        <div class="section-heading"><h2 id="order-title">Порядок работы</h2></div>
+        <ol class="path-grid">
+          <li class="path-card"><span class="path-number">01</span><h3>Соберите данные</h3><p>Заведите обезличенный профиль. Для оценки по истории добавьте прошлые назначения, исходы и контекст подразделения.</p></li>
+          <li class="path-card"><span class="path-number">02</span><h3>Оцените риск ухода</h3><p>Загрузите результат Python или задайте сценарные вероятности. Сравнивайте варианты на одном горизонте.</p></li>
+          <li class="path-card"><span class="path-number">03</span><h3>Сравните меры</h3><p>Заполните экономику ухода, стоимость и выгоды мер. Проверьте ERIV, порог окупаемости и источник оценки.</p></li>
+        </ol>
+      </section>
+
+      <section class="method-details" aria-labelledby="details-title">
+        <div class="section-heading"><h2 id="details-title">Как устроена модель</h2></div>
+        <div class="method-grid">
+          <div class="method-accordion">
+            <details open>
+              <summary>Реестр и контекст</summary>
+              <div class="details-copy">
+                <p>В «Сотрудниках» одна строка соответствует сотруднику на дату решения. «Профиль» описывает текущий случай. «История» содержит прошлое назначение, его исполнение и известный исход за горизонт H. Для оценки нужны история обычной практики (BAU) и история каждой сравниваемой меры.</p>
+                <p>Контекст хранится отдельными замерами. Связь проходит по коду компании и замера. Дата доступности замера должна предшествовать дате признаков или совпадать с ней. Индексы HTUI, TTF, AQI, DQI, MDI, OMI и SEI приводятся к шкале от 0 до 1.</p>
+              </div>
+            </details>
+            <details>
+              <summary>Риск, эффект и исполнение</summary>
+              <div class="details-copy">
+                <p>Логистическая модель на истории BAU оценивает общий P₀. DoWhy проверяет идентификацию по заданному графу, LinearDML оценивает эффект назначения меры. X описывает неоднородность эффекта, W задаёт дополнительные доназначенческие контроли. В наблюдательном дизайне интерпретация зависит от корректности графа и учёта общих причин назначения и ухода.</p>
+                <p>Оценка требует зрелых наблюдений, исходов в обеих группах и достаточного перекрытия. Вероятность исполнения q влияет на ожидаемые расходы. В ручном сценарии исполнения q также переводит риск при исполнении в риск при назначении. Импортированный эффект назначения уже учитывает фактическое исполнение в истории.</p>
+              </div>
+            </details>
+            <details>
+              <summary>Экономика и сценарии</summary>
+              <div class="details-copy">
+                <p>Финансы задают план на случай ухода, стоимость HRTech и ставку дисконтирования. Для каждой меры укажите расходы, прочие выгоды и их полноту. Дисконтирование относит однократную часть затрат к дате назначения, остальные потоки распределяет по месяцам H.</p>
+                <p>Базовый сценарий выбирает максимальный положительный ERIV. Благоприятный выбирает наибольшее снижение риска среди вариантов с положительным ERIV. Консервативный показывает обычную практику и экономику возможного ухода. При равенстве действует порядок мер в шаблоне.</p>
+              </div>
+            </details>
+            <details>
+              <summary>Контекстные связи и NSM</summary>
+              <div class="details-copy">
+                <p>OLS описывает связи между индексами на уровне замеров. Для каждого уравнения нужны достаточное число полных замеров и независимые предикторы. Опросы сотрудников и агрегированные замеры подразделений относятся к разным единицам наблюдения.</p>
+                <p>NSM показывает разность долей людей, которые остались и достигли установленного норматива к H, на 100 назначенных. Нужны известные совместные исходы для всех исходно назначенных в каждой группе. При наблюдательном сравнении разность долей описательная.</p>
+              </div>
+            </details>
+            <details>
+              <summary>Стратегически значимые группы</summary>
+              <div class="details-copy">
+                <p>В концепции Talentship стратегически значимы группы, где рост эффективности даёт компании наибольший вклад в достижение целей. Модель рассчитана на случаи в компаниях от 1 000 сотрудников. Принадлежность роли к такой группе определяют по стратегии и задачам компании.</p>
+                <p><a class="inline-link" href="https://doi.org/10.1002/hrm.20054" rel="noopener noreferrer" target="_blank">Boudreau и Ramstad, исследование о Talentship ↗</a></p>
+              </div>
+            </details>
+          </div>
+          <aside class="formula-card" aria-label="Формула ERIV">
+            <span class="formula-label">Чистая ценность относительно BAU</span>
+            <strong class="formula-title">ERIV, ₽</strong>
+            <div class="formula-terms">
+              <span><b>ΔP × PV потерь</b><small>Предотвращённые потери от ухода</small></span>
+              <span><b>+ PV выгод</b><small>Прочие эффекты за горизонт</small></span>
+              <span><b>− PV затрат</b><small>Мера и HRTech</small></span>
+            </div>
+            <p>ΔP = P₀ − P при назначении. PV — приведённая стоимость. Для BAU значение ERIV равно 0.</p>
+          </aside>
+        </div>
+      </section>
+    </div>
+
+    <div id="calculate" class="shell calc-page" hidden>
+      <div class="page-heading">
+        <div><div class="page-kicker">Калькулятор ERIV</div><h1>Расчёт удержания</h1><p>Один сотрудник, один горизонт, несколько альтернатив.</p></div>
+        <div class="page-actions">
+          <button class="btn outline" type="button" data-action="import" id="import-button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m-4 4 4-4 4 4M5 16v4h14v-4"/></svg>
+            Импорт CATE
+          </button>
+          <button class="btn primary" type="button" data-action="new-profile">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Добавить сотрудника
+          </button>
+        </div>
+      </div>
+      <nav id="calc-nav" class="calc-nav" aria-label="Шаги расчёта"></nav>
+      <div class="workspace-grid" id="workspace-grid">
+        <section class="workspace-panel" id="work-panel" aria-labelledby="step-title"></section>
+        <aside id="work-summary" class="work-summary" aria-label="Сводка случая"></aside>
+      </div>
+    </div>
+
+    <div id="registry" class="shell registry-page" hidden></div>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer-inner"><span><strong>ERIV</strong> · Модель удержания</span><a href="#method">Методика расчёта</a></div>
+  </footer>
+
+  <dialog id="privacy-dialog" class="dialog" aria-labelledby="privacy-title">
+    <div class="dialog-head">
+      <span class="dialog-icon warning" aria-hidden="true">!</span>
+      <button class="icon-btn" type="button" data-action="close" aria-label="Закрыть">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <h2 id="privacy-title">Перед добавлением сотрудника</h2>
+    <p>Вы добавляете данные о сотруднике в модель анализа и прогноза. Запись сохранится для последующего улучшения модели. Проверьте, нет ли конфиденциальных данных. Используйте обезличенный код.</p>
+    <p>Сотрудник работает в крупной компании от 1 000 человек и может относиться к стратегически значимой группе (pivotal talent pool) по <strong>концепции Talentship</strong>. Повышение эффективности такой группы даёт компании большой вклад, а ошибка может повлиять на важный результат.</p>
+    <p class="storage-note" id="storage-note"></p>
+    <form id="privacy-form">
+      <label class="check-line"><input type="checkbox" required id="privacy-ack"><span>Данные обезличены, в компании от 1 000 сотрудников</span></label>
+      <p class="form-error" id="privacy-error" role="alert" hidden></p>
+      <div class="dialog-actions">
+        <button class="btn outline" type="button" data-action="close">Отмена</button>
+        <button class="btn primary" id="privacy-submit" type="submit">Добавить в реестр</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="admin-dialog" class="dialog" aria-labelledby="admin-dialog-title">
+    <div class="dialog-head">
+      <span class="dialog-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></svg></span>
+      <button class="icon-btn" type="button" data-action="close" aria-label="Закрыть">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <h2 id="admin-dialog-title">База сотрудников</h2>
+    <p>Войдите через Google с аккаунтом, которому выдан доступ к базе.</p>
+    <p id="google-status" role="status" hidden></p>
+    <div id="google-button" class="google-button"></div>
+    <p class="form-error" id="admin-error" role="alert" hidden></p>
+    <div class="dialog-actions"><button class="btn outline" data-action="retry-google" id="google-retry" type="button" hidden>Повторить</button></div>
+  </dialog>
+
+  <input type="file" id="cate-file" accept=".csv,text/csv" hidden>
+  <input type="file" id="context-file" accept=".csv,text/csv" hidden>
+  <input type="file" id="history-file" accept=".csv,text/csv" hidden>
+  <p id="notice" class="notice" role="status" hidden></p>
+  <noscript><p class="shell">Включите JavaScript, чтобы открыть калькулятор.</p></noscript>
+</body>
+</html>
