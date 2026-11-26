@@ -23,6 +23,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Configure the public API origin
+        if: vars.ERIV_API_URL != ''
+        env:
+          ERIV_API_URL: ${{ vars.ERIV_API_URL }}
+        run: |
+          node <<'JS'
+          const fs = require('node:fs');
+          const url = new URL(process.env.ERIV_API_URL);
+          if (url.protocol !== 'https:' || url.username || url.password || url.pathname !== '/' || url.search || url.hash) {
+            throw new Error('ERIV_API_URL must be an HTTPS origin without a path or credentials.');
+          }
+          fs.writeFileSync('site/config.js', 'window.ERIV_API_URL = ' + JSON.stringify(url.origin) + ';\n');
+          JS
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
