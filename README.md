@@ -24,6 +24,10 @@ python -m http.server 8000 --bind 127.0.0.1 --directory site
 
 GitHub Pages размещает сайт. Для запуска Python и работы с общей базой разверните API из этой же папки. Ниже пример для Render.
 
+Для `sevbarv/ERIV` в корне уже есть `render.yaml`. В Render откройте **New → Blueprint**, выберите этот репозиторий и примените конфигурацию. Настройки запуска из шагов 1–3 будут внесены автоматически. На бесплатном тарифе сервер может засыпать между запросами. Google-вход и синхронизация настраиваются отдельно в среде сервера.
+
+В GitHub можно задать URL API через **Settings → Secrets and variables → Actions → Variables → New repository variable** с именем `ERIV_API_URL`. Укажите HTTPS-адрес сервиса без пути. Затем запустите workflow публикации вручную. Этот способ имеет приоритет перед `site/config.js` при публикации.
+
 1. В Render выберите **New → Web Service**, подключите репозиторий и ветку `main`. Оставьте **Root Directory** пустым, если `site` и `server` лежат в корне.
 2. Укажите **Language** = Python 3, **Build Command** = `pip install -r server/requirements.txt` и **Start Command** = `uvicorn server.app:app --host 0.0.0.0 --port $PORT`. Установите `PYTHON_VERSION` = `3.12.12`.
 3. В **Environment** задайте `ERIV_ALLOWED_ORIGINS`. Для сайта `https://OWNER.github.io/REPO/` это `https://OWNER.github.io`. Если используете собственный домен, укажите его origin. При необходимости разделите несколько адресов запятой.
